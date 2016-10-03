@@ -1,0 +1,25 @@
+Description: 4.4 kernel compatibility
+ seq_printf is void and we must not attempt to use its return value as
+ that warning is now fatal.
+Author: Andy Whitcroft <apw@ubuntu.com>
+
+--- rtl8812au-4.3.8.12175.20140902+dfsg.orig/include/rtw_debug.h
++++ rtl8812au-4.3.8.12175.20140902+dfsg/include/rtw_debug.h
+@@ -229,7 +229,7 @@ extern void rtl871x_cedbg(const char *fm
+ 		if (sel == RTW_DBGDUMP)\
+ 			_DBG_871X_LEVEL(_drv_always_, fmt, ##arg); \
+ 		else {\
+-			if(_seqdump(sel, fmt, ##arg)) /*rtw_warn_on(1)*/; \
++			_seqdump(sel, fmt, ##arg); \
+ 		} \
+ 	}while(0)
+ 
+@@ -239,7 +239,7 @@ extern void rtl871x_cedbg(const char *fm
+ 		if (sel == RTW_DBGDUMP)\
+ 			DBG_871X_LEVEL(_drv_always_, fmt, ##arg); \
+ 		else {\
+-			if(_seqdump(sel, fmt, ##arg)) /*rtw_warn_on(1)*/; \
++			_seqdump(sel, fmt, ##arg); \
+ 		} \
+ 	}while(0)
+ 
